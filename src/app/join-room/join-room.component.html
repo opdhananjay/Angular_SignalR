@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6 mx-auto">
+            <h2 class="text-center text-dark mt-5">Welcome To Chat Hub</h2>
+            <div class="text-center mt-5 text-dark">Please join the Room Start</div>
+        </div>
+
+        <div class="card my-3 cardbody-color p-lg-2">
+            <form [formGroup]="joinRoomForm" class="card-body">
+
+                <div class="mb-3">
+                    <input formControlName="user" type="text" class="form-control" id="displayname" placeholder="Display Name">
+                </div>
+
+                <div class="mb-3">
+                    <input formControlName="room" type="text" class="form-control" id="roomname" placeholder="Room Name">
+                </div>
+
+                <div class="text-center">
+                    <button [disabled]="joinRoomForm.invalid" (click)="joinRoom()" type="submit" class="btn btn-color px-5 mb-5 w-100">Join</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
