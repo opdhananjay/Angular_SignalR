@@ -1,26 +1,63 @@
-<div class="container mx-auto mt-5 border">
-
-    <div class="text-center p-4">
-        <h2>Welcome To Chat (Group Name)</h2>
-    </div>
-
-    <div class="row border position-relative">
-        <div class="chatOuter col-md-4 border" style="height:80vh;overflow-y: scroll;gap: 5px;">
-            <div class="chatDiv">
-                <h3>Dhananjay</h3>
-                <p>Last Online</p>
-            </div>
-            <div class="chatDiv">
-                <h3>Bhavesh</h3>
-                <p>Last Online</p>
-            </div>
-        </div>
-        <div class="col-md-8 border" style="height:80vh;overflow-y: scroll;">
-            <div class="position-absolute bottom-0 w-75 d-flex">
-                <input type="text" name="message" id="textMessage" class="form-control w-50">
-                <button class="btn btn-secondary" style="margin-left: 10px;">Send</button>
-            </div>
+<div class="container border shadow p-3 bg-white">
+    <!-- Chat Header -->
+    <div class="text-center p-2 shadow d-inline">
+        <h2>Welcome to Chat (<span class="fw-bold">{{groupName}}</span>)</h2>
+        <div class="d-flex justify-content-end">
+          <button (click)="leaveChat()" class="btn btn-danger">Leave Chat</button>
         </div>
     </div>
 
+    <!-- Chat Layout -->
+    <div class="row">
+
+        <button (click)="toggleChats()" class="btn btn-primary toggleIcons" type="button" data-bs-toggle="collapse" data-bs-target="#menuContent" aria-expanded="false" aria-controls="menuContent">
+            <i #menuIcon class="bi bi-list" id="menuIcon">Start Chat Now</i>
+        </button>
+
+        <!-- Sidebar (User List) -->
+        <div class="col-md-3 border chatOuter" #chatOuter >
+            <span class="p-2" style="font-size: 12px;font-style: italic;">All Conncted Users</span>
+            <div class="chatDiv" *ngFor="let user of this.chatService.connectedUsers$ | async">
+                <h5 class="mb-1">{{user}}</h5>
+                <p class="text-muted small d-flex align-items-center">
+                    <span class="online-dot"></span> Online
+                </p>  
+            </div>       
+        </div>
+
+        <!-- Chat Area -->
+        <div class="col-md-9 border chatBox type_msg" #chatBox>
+         <div class="mesgs">
+            <div class="msg_history" #msg_history>
+                <ng-container *ngFor="let message of this.chatService.message$ | async">
+                    <div [ngClass]="{'incoming-msg':message.user != loggedInUserName , 'outgoing_msg':message.user === loggedInUserName}">
+                        
+                        <div *ngIf="message.user != loggedInUserName" class="incoming_msg_img">
+                            <img src="https://ptetutorials.com/images/user-profile.png" class="incoming_msg_img">
+                        </div>
+
+                        <div *ngIf="message.user != loggedInUserName" class="">
+                            <div class="received_withd_msg">
+                                <p>{{message.message}}</p>
+                                <span class="time_date"> <b>{{message.user}}</b> | {{message.messageTime | date:'medium'}}</span>
+                            </div>  
+                        </div>  
+
+                        <div *ngIf="message.user === loggedInUserName" class="sent_msg">
+                            <p>{{message.message}}</p>
+                            <span class="time_date">{{message.user}} | {{message.messageTime | date:'medium'}}</span>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="chatInput input_msg_write">
+            <input (keydown.enter)="sendMessages()" [(ngModel)]="inputMessgae" type="text" id="textMessage" class="form-control" placeholder="Type your message...">
+            <button (click)="sendMessages()" class="btn btn-secondary">Send</button>
+        </div>
+
+        </div>
+    </div>
 </div>
