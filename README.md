@@ -1,4 +1,4 @@
-#Angualat DotNet Project Using SignalR => https://chatapp.pulseplexcreative.com/join-room
+#Angular DotNet Project Using SignalR => https://chatapp.pulseplexcreative.com/join-room
 
 
 # TC
